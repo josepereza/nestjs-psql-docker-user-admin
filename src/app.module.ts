@@ -3,8 +3,9 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { UsersModule } from './users/users.module';
-import { RolesController } from './users/controllers/roles/roles.controller';
-import { RolesService } from './users/services/roles/roles.service';
+import { RolesController } from './roles/controllers/roles.controller';
+import { RolesService } from './roles/services/roles.service';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
     imports: [
@@ -15,13 +16,14 @@ import { RolesService } from './users/services/roles/roles.service';
             username: 'postgres',
             password: 'postgres',
             database: 'postgres',
-            entities: [],
+            entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: true,
             autoLoadEntities: true,
         }),
-        UsersModule
+        UsersModule,
+        RolesModule,
     ],
-    controllers: [AppController, RolesController],
-    providers: [AppService, RolesService],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule { }
