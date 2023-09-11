@@ -61,7 +61,12 @@ export class UsersService {
         if (user.is_deleted)
             throw new ConflictException(`User with ID ${id} is already deleted.`)
 
+        const role = await this.roleRepository.findOne({where: { id: user.roleId }})
+
         user.is_deleted = true
+        role.is_deleted = true
+
         await this.userRepository.save(user)
+        await this.roleRepository.save(role)
     }
 }
