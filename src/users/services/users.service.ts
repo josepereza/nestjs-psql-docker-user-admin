@@ -51,6 +51,10 @@ export class UsersService {
 
     async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
         const user = await this.findUserById(id)
+
+        if (user.is_deleted)
+            throw new ConflictException(`User with ID ${id} is already deleted`)
+
         this.userRepository.merge(user, updateUserDto)
         return await this.userRepository.save(user)
     }
