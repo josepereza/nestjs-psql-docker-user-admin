@@ -18,7 +18,7 @@ export class User {
     @Column({ unique: true })
     phone: string
 
-    @Column()
+    @Column({ default: 'user' })
     role: string
 
     @Column({ default: false })
