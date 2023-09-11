@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Role } from '../entities/role.entity'
+import { CreateRoleDto } from '../dtos/create-role.dto'
+import { UpdateRoleDto } from '../dtos/update-role.dto'
 
 @Injectable()
 export class RolesService {
@@ -9,8 +11,8 @@ export class RolesService {
         @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
     ) { }
 
-    async createRole(role: Role): Promise<Role> {
-        return await this.roleRepository.save(role)
+    async createRole(createRolDto: CreateRoleDto): Promise<Role> {
+        return await this.roleRepository.save(createRolDto)
     }
 
     async findAllRoles(): Promise<Role[]> {
@@ -25,7 +27,7 @@ export class RolesService {
         return role
     }
 
-    async updateRole(id: number, updateRoleDto: Partial<Role>): Promise<Role> {
+    async updateRole(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
         const role = await this.findRoleById(id)
         this.roleRepository.merge(role, updateRoleDto)
         return await this.roleRepository.save(role)

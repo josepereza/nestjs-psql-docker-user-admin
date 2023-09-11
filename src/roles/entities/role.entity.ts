@@ -6,7 +6,7 @@ export class Role {
     id: number
 
     @Column()
-    full_name: string
+    name: string
 
     @Column({ default: false })
     is_deleted: boolean
