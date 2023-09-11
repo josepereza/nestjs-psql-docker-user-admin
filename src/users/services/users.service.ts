@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     ConflictException,
     Injectable,
     NotFoundException,
@@ -51,11 +52,39 @@ export class UsersService {
 
     async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
         const user = await this.findUserById(id)
+        const role = await this.roleRepository.findOne({where: { id: user.roleId }})
 
         if (user.is_deleted)
             throw new ConflictException(`User with ID ${id} is already deleted`)
 
         this.userRepository.merge(user, updateUserDto)
+
+        user.updated_at = new Date()
+        role.updated_at = new Date()
+        
+        await this.roleRepository.save(role)
+        return await this.userRepository.save(user)
+    }
+
+    async updateUserRole(id: number, role: string): Promise<User> {
+        // check if the user exists
+        const user = await this.findUserById(id)
+        const userCurrentRole = await this.roleRepository.findOne({where: { id: user.roleId }})
+
+
+        // check if the new role is either 'admin' or 'user'
+        if (role !== 'admin' && role !== 'user') 
+            throw new BadRequestException('Invalid role. Role must be either "admin" or "user".')
+
+        // check if the user already has the given role
+        if (role == userCurrentRole.name)
+            throw new BadRequestException(`User already has the role "${role}".`)
+
+        // update the user's role and the updated_at column
+        user.updated_at = new Date()
+        userCurrentRole.updated_at = new Date()
+
+        await this.roleRepository.save(userCurrentRole)
         return await this.userRepository.save(user)
     }
 
