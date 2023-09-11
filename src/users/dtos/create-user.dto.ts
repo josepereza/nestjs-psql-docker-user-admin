@@ -1,10 +1,9 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MinLength } from 'class-validator';
-import { UserRoles } from 'src/users-roles.enum';
+import { IsEmail, IsNotEmpty, IsString, Matches, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  @Matches(/^[A-Za-z]+$/, { message: 'full_name must contain only alphabetic characters' })
+  @Matches(/^[A-Za-z\s]+$/, { message: 'full_name must contain only alphabetic characters and spaces' })
   full_name: string;
 
   @IsNotEmpty()
@@ -19,8 +18,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   phone: string;
-
-  @IsOptional()
-  @IsEnum(UserRoles, { message: 'Invalid role, leave this field empty' })
-  role?: UserRoles = UserRoles.User;
 }

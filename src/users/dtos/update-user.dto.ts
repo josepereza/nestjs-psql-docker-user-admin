@@ -1,5 +1,4 @@
-import { IsEmail, IsEnum, IsOptional, IsString, Matches, MinLength, isString, minLength } from 'class-validator'
-import { UserRoles } from 'src/users-roles.enum'
+import { IsEmail, IsOptional, IsString, Matches, MinLength } from 'class-validator'
 
 export class UpdateUserDto {
     @IsOptional()
@@ -19,8 +18,4 @@ export class UpdateUserDto {
     @IsOptional()
     @IsString()
     phone?: string
-
-    @IsOptional()
-    @IsEnum(UserRoles, { message: 'Invalid role' })
-    role?: UserRoles
 }
