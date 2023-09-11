@@ -1,13 +1,26 @@
-import { UserRoles } from 'src/users-roles.enum';
+import { IsEmail, IsEnum, IsOptional, IsString, Matches, MinLength, isString, minLength } from 'class-validator'
+import { UserRoles } from 'src/users-roles.enum'
 
 export class UpdateUserDto {
-  full_name: string;
+    @IsOptional()
+    @IsString()
+    @Matches(/^[A-Za-z]+$/, { message: 'full_name must contain only alphabetic characters' })
+    full_name?: string
 
-  email: string;
+    @IsOptional()
+    @IsEmail()
+    email?: string
 
-  password: string;
+    @IsOptional()
+    @IsString()
+    @MinLength(6)
+    password?: string
 
-  phone: string;
+    @IsOptional()
+    @IsString()
+    phone?: string
 
-  role: UserRoles;
+    @IsOptional()
+    @IsEnum(UserRoles, { message: 'Invalid role' })
+    role?: UserRoles
 }
