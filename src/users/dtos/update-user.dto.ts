@@ -3,7 +3,7 @@ import { IsEmail, IsOptional, IsString, Matches, MinLength } from 'class-validat
 export class UpdateUserDto {
     @IsOptional()
     @IsString()
-    @Matches(/^[A-Za-z\s]+$/, { message: 'full_name must contain only alphabetic characters' })
+    @Matches(/^[A-Za-zÁáÉéÍíÓóÚúÜü\s]+$/, { message: 'full_name must contain only alphabetic characters' })
     full_name?: string
 
     @IsOptional()

@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, Matches, MinLength } from 'class-validat
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  @Matches(/^[A-Za-z\s]+$/, { message: 'full_name must contain only alphabetic characters and spaces' })
+  @Matches(/^[A-Za-zÁáÉéÍíÓóÚúÜü\s]+$/, { message: 'full_name must contain only alphabetic characters and spaces' })
   full_name: string;
 
   @IsNotEmpty()

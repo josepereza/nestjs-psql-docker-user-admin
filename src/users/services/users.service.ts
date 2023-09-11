@@ -66,13 +66,13 @@ export class UsersService {
         // check whether user already exists
         const existingEmail = await this.findUserByEmail(updateUserDto.email)
         const existingPhone = await this.findUserByPhone(updateUserDto.phone)
-
-        if (existingEmail)
+   
+        if (existingEmail.id !== id)
             throw new ConflictException(
                 `User with email ${updateUserDto.email} is already registered.`,
             )
 
-        if (existingPhone)
+        if (existingPhone.id !== id)
             throw new ConflictException(
                 `User with phone ${updateUserDto.phone} is already registered.`,
             )
